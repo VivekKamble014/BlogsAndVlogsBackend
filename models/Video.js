@@ -1,4 +1,4 @@
-// backend/models/Blog.js
+// backend/models/Video.js
 
 import mongoose from 'mongoose';
 const commentSchema = new mongoose.Schema({
@@ -6,21 +6,23 @@ const commentSchema = new mongoose.Schema({
   author: { type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' },
 }, { timestamps: true });
 
-
-const blogSchema = new mongoose.Schema(
+const videoSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
     },
-    content: {
+    description: {
+      type: String,
+    },
+    videoUrl: {
       type: String,
       required: true,
     },
-    author: {
+    uploader: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'User', // This creates a relationship to the User model
+      ref: 'User',
     },
         comments: [commentSchema] // Add this line
 
@@ -30,6 +32,5 @@ const blogSchema = new mongoose.Schema(
   }
 );
 
-const Blog = mongoose.model('Blog', blogSchema);
-
-export default Blog;
+const Video = mongoose.model('Video', videoSchema);
+export default Video;

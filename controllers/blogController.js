@@ -28,11 +28,32 @@ export const getBlogs = async (req, res) => {
   const blogs = await Blog.find({}).populate('author', 'username');
   res.json(blogs);
 };
+
 export const getBlogById = async (req, res) => {
-  const blog = await Blog.findById(req.params.id).populate('author', 'username');
+  const blog = await Blog.findById(req.params.id)
+    .populate('author', 'username')
+    .populate('comments.author', 'username'); // <-- Update this line
 
   if (blog) {
     res.json(blog);
+  } else {
+    res.status(404).json({ message: 'Blog not found' });
+  }
+};
+
+
+export const createBlogComment = async (req, res) => {
+  const { text } = req.body;
+  const blog = await Blog.findById(req.params.id);
+
+  if (blog) {
+    const comment = {
+      text,
+      author: req.user._id,
+    };
+    blog.comments.push(comment);
+    await blog.save();
+    res.status(201).json({ message: 'Comment added' });
   } else {
     res.status(404).json({ message: 'Blog not found' });
   }
@@ -73,3 +94,4 @@ export const deleteBlog = async (req, res) => {
   await blog.deleteOne();
   res.json({ message: 'Blog removed' });
 };
+

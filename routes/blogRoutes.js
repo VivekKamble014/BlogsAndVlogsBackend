@@ -7,6 +7,7 @@ import {
   getBlogById,
   updateBlog,
   deleteBlog,
+  createBlogComment,
 } from '../controllers/blogController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -21,5 +22,6 @@ router
   .get(getBlogById)
   .put(protect, updateBlog)
   .delete(protect, deleteBlog);
+router.route('/:id/comments').post(protect, createBlogComment);
 
 export default router;
