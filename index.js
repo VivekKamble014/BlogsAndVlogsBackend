@@ -30,6 +30,9 @@ app.use('/api/videos', videoRoutes); // Add this line
 
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
+app.get('/', (req, res) => {
+  res.send('Blogs & Vlogs Backend is Running ✅');
+});
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
